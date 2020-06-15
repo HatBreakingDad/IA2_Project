@@ -95,17 +95,12 @@
                             {% endfor %}
                         </ul>
                     </td>
-                    <!-- {% for col in row %}
-                    <td>{{ col.replace('product_cat-','')}}</td>
-                    {% endfor %} -->
                     <td><img onerror="this.src = '../static/assets/media/placeholder.jpg'; this.style = 'width : 160px; height : 160px;'"
                             src="{{ '../static/assets/media/' + row[3]}}"></td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
-
-        <!-- <hr class="featurette-divider"> -->
 
         <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
             <p class="float-right"><a href="#">Back to top</a></p>
