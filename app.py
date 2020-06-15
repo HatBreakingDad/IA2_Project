@@ -4,16 +4,16 @@ import csv
 app = Flask(__name__)
 
 
-@app.route("/pictures", methods=["POST", "GET"])
-def pictures():
+@app.route("/search", methods=["POST", "GET"])
+def search():
     if request.method == 'GET':
         """convert the csv into a basic html table format"""
         dataout = []
-        with open("primeimages.csv", mode='r', encoding='utf-8-sig') as file:
+        with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
             reader = csv.reader(file)
             for line in reader:
                 dataout.append(line)
-        return render_template('pictures.html', getdata=dataout)
+        return render_template('search.html', getdata=dataout)
     else:
         requestResults = request.form['results']
         dataout = []
@@ -25,7 +25,7 @@ def pictures():
         for item in dataout:
             if (requestResults.lower() in ' '.join(item).lower()):
                 search.append(item)
-        return render_template('pictures.html', getdata=search)
+        return render_template('search.html', getdata=search)
 
 
 @app.route("/form", methods=["POST", "GET"])

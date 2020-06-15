@@ -65,8 +65,15 @@
 
     <main role="main">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-dark">
-                {% for row in getdata %}
+            <table class="table table-bordered table-striped table-light">
+                <thead class="thead-dark">
+                    {% for element in getdata[0]}
+                    <tr>
+                        <th scope="col">element</th>
+                    </tr>
+                    {% endfor %}
+                </thead>
+                {% for row in getdata[1:] %}
                 <tr>
                     {% for col in row %}
                     <td>{{ col }}</td>
