@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Zachary Wicks">
     <meta name="generator" content="Jekyll v4.0.1">
-    <title>Carousel Template · Bootstrap</title>
+    <title>Search Results</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
 
@@ -57,6 +57,17 @@
                     </li>
                 </ul>
                 <form class="form-inline mt-2 mt-md-0" id="search" method="POST">
+                    <select class="form-control form-control-md" name="stockselect">
+                        <option value="" selected disabled hidden>Product Stock</option>
+                        <option class="dropdown-item" name="stock" value="instock">In Stock</option>
+                        <option class="dropdown-item" name="stock" value="outofstock">Out of Stock</option>
+                    </select>
+                    <select class="form-control form-control-md" name="categoryselect">
+                        <option value="" selected disabled hidden>Categories</option>
+                        {% for category in categories %}
+                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('-',' ') }}</option>
+                        {% endfor %}
+                    </select>
                     <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results"
                         id="results" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -67,7 +78,8 @@
 
     <main role="main">
         {% if resultLength > -1 %}
-        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }} items were found</h1>
+        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }}
+            items were found</h1>
         {% else %}
         <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">List of Products</h1>
         {% endif %}

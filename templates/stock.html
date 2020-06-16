@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Zachary Wicks">
     <meta name="generator" content="Jekyll v4.0.1">
-    <title>Carousel Template · Bootstrap</title>
+    <title>Stock Viewer</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
 
@@ -56,7 +56,7 @@
                         <a class="nav-link" href="stock">Stock Checker</a>
                     </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0" id="search" method="POST">
+                <form class="form-inline mt-2 mt-md-0" id="search" href="search" method="POST">
                     <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results"
                         id="results" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -66,11 +66,6 @@
     </header>
 
     <main role="main">
-        {% if resultLength > -1 %}
-        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }} items were found</h1>
-        {% else %}
-        <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">List of Products</h1>
-        {% endif %}
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-light">
                 <thead class="thead-dark">
