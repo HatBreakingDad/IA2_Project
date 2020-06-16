@@ -5,40 +5,26 @@ app = Flask(__name__)
 
 
 def getCSV():
-    dataout = []
     with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
         reader = csv.reader(file)
-        categoryList = []
+        returnCatList = []
+        returnData = []
         for line in reader:
-            dataout.append(line)
+            returnData.append(line)
             returnCategory = line[len(
                 line) - 1].replace('product_cat-', '').replace('-', ' ').title().split(',')
             for i in range(0, len(returnCategory)):
-                if(returnCategory[i] not in categoryList):
-                    categoryList.append(returnCategory[i])
-        return categoryList, dataout
-        # return categoryList
-        # return dataout
-
+                if(returnCategory[i] not in returnCatList):
+                    returnCatList.append(returnCategory[i])
+        return returnData, returnCatList
 
 @app.route("/search", methods=["POST", "GET"])
 def search():
     if request.method == 'GET':
         """convert the csv into a basic html table format"""
-        dataout = []
-        with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
-            reader = csv.reader(file)
-            categoryList = []
-            for line in reader:
-                dataout.append(line)
-                returnCategory = line[len(
-                    line) - 1].replace('product_cat-', '').replace('-', ' ').title().split(',')
-                for i in range(0, len(returnCategory)):
-                    if(returnCategory[i] not in categoryList):
-                        categoryList.append(returnCategory[i])
-
-        # return categoryList
-        # return dataout
+        fileReturn = getCSV()
+        dataout = fileReturn[0]
+        categoryList = fileReturn[1]
         return render_template('search.html', getdata=dataout, dataLength=8, resultLength=-1, categories=categoryList)
     else:
         requestResults = request.form['results']
@@ -79,25 +65,13 @@ def search():
  #Working on making a csv function and beginning early stages of development for editor
 @app.route("/editor", methods=["POST", "GET"])
 def editor():
-    if request.method == "POST":
-        return render_template('editor.html', getdata=dataout, datalength=8)
+    if request.method == "GET":
+        fileReturn = getCSV()
+        dataout = fileReturn[0]
+        categoryList = fileReturn[1]
+        return render_template('editor.html', getdata=dataout, dataLength=8, resultLength = -1, categories=categoryList)
     else:
         return render_template('editor.html', getdata=dataout, dataLength=8)
-
-        # @app.route("/stock", methods=["POST", "GET"])
-        # def stock():
-        #     if request.method == 'GET':
-        #         """convert the csv into a basic html table format"""
-        #         dataout = []
-        #         with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
-        #             reader = csv.reader(file)
-        #             for line in reader:
-        #                 dataout.append(line)
-        #         return render_template('stock.html', getdata=dataout, dataLength=8)
-        #     else:
-        #         requestResults = request.form['results']
-        #         print(requestResults)
-        # redirect(url_for('search'), code=307)
 
 
 if __name__ == "__main__":
