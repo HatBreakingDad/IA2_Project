@@ -16,7 +16,8 @@ def getCSV():
             for i in range(0, len(returnCategory)):
                 if(returnCategory[i] not in returnCatList):
                     returnCatList.append(returnCategory[i])
-        return returnData, returnCatList
+        return returnData, returnCatList[1:]
+
 
 @app.route("/search", methods=["POST", "GET"])
 def search():
@@ -62,14 +63,21 @@ def search():
                         categoryList.append(returnCategory[i])
         return render_template('search.html', getdata=search, dataLength=8, resultLength=len(search) - 1, categories=categoryList)
 
- #Working on making a csv function and beginning early stages of development for editor
+ # Working on making a csv function and beginning early stages of development for editor
+
+
 @app.route("/editor", methods=["POST", "GET"])
 def editor():
     if request.method == "GET":
-        fileReturn = getCSV()
-        dataout = fileReturn[0]
-        categoryList = fileReturn[1]
-        return render_template('editor.html', getdata=dataout, dataLength=8, resultLength = -1, categories=categoryList)
+        with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
+            reader = csv.reader(file)
+            returnIDList = []
+            dataout = []
+            for line in reader:
+                dataout.append(line)
+                returnIDList.append(line[0])
+        IDList = returnIDList[1:]
+        return render_template('editor.html', getdata=dataout, IDList=IDList)
     else:
         return render_template('editor.html', getdata=dataout, dataLength=8)
 

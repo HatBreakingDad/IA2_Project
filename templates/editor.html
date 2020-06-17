@@ -1,43 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Zachary Wicks">
-    <meta name="generator" content="Jekyll v4.0.1">
-    <title>Search Results</title>
+    <meta name="author" content="">
+    <link rel="icon" href="../static/assets/media/logo.png">
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+    <title>Product Editor</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../static/assets/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
-    <link href="../static/carousel.css" rel="stylesheet">
+    <link href="form-validation.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <!-- <a class="navbar-brand" href="#">GGE Product Management</a> -->
             <a class="navbar-brand" href="#"><img src="../static/assets/media/logo.png"
                     style="width : 35px; height: 35px;"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -65,7 +47,8 @@
                     <select class="form-control form-control-md" name="categoryselect">
                         <option value="" selected disabled hidden>Categories</option>
                         {% for category in categories %}
-                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('-',' ') }}</option>
+                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('-',' ') }}
+                        </option>
                         {% endfor %}
                     </select>
                     <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results"
@@ -76,61 +59,112 @@
         </nav>
     </header>
 
-    <main role="main">
-        {% if resultLength > -1 %}
-        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }}
-            items were found</h1>
-        {% else %}
-        <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">List of Products</h1>
-        {% endif %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-light">
-                <thead class="thead-dark">
-                    <tr>
-                        {% for element in getdata[0] %}
-
-                        <th scope="col">{{ element.replace('prod_','').upper() }}</th>
-
-                        {% endfor %}
-                        <th scop="col">IMAGE</th>
-                    </tr>
-                </thead>
-                {% for row in getdata[1:] %}
-                <tr>
-                    {% for i in range(0, dataLength - 1) %}
-                    <td>{{ row[i]}}</td>
-                    {% endfor %}
-                    <td>
-                        <ul class="list-group">
-                            {% for item in row[dataLength  - 1].replace('product_cat-','').replace('-',' ').title().split(',') %}
-                            <li class="list-group-item">{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <!-- {% for col in row %}
-                    <td>{{ col.replace('product_cat-','')}}</td>
-                    {% endfor %} -->
-                    <td><img onerror="this.src = '../static/assets/media/placeholder.jpg'; this.style = 'width : 160px; height : 160px;'"
-                            src="{{ '../static/assets/media/' + row[3]}}"></td>
-                </tr>
-                {% endfor %}
-            </table>
+    <div style="margin-bottom : 100px;" class="container">
+        <div class="text-center">
+            <h2 style="margin-top : 80px; margin-bottom : 20px;">Checkout Form</h2>
         </div>
+        <div class="justify-content-center">
+            <!--prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat-->
+            <form class="needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="productName">Product ID</label>
+                        <input type="text" class="form-control" id="productID" name="productID" placeholder=""
+                            value={{IDList[0]}} readonly>
+                        <div class="invalid-feedback">
+                            Valid product name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="productName">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="productName" placeholder=""
+                            value="" required>
+                        <div class="invalid-feedback">
+                            Valid product name is required.
+                        </div>
+                    </div>
+                </div>
 
-        <!-- <hr class="featurette-divider"> -->
+                <div class="mb-3">
+                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
 
+                <div class="mb-3">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">Country</label>
+                        <select class="custom-select d-block w-100" id="country" required>
+                            <option value="">Choose...</option>
+                            <option>United States</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <select class="custom-select d-block w-100" id="state" required>
+                            <option value="">Choose...</option>
+                            <option>California</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="zip">Zip</label>
+                        <input type="text" class="form-control" id="zip" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Zip code required.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Detail Change</button>
+            </form>
+        </div>
         <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
             <p class="float-right"><a href="#">Back to top</a></p>
             <p>&copy; 2020 Green Green Gardening, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
             </p>
         </footer>
-    </main>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../static/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
-    <script src="../static/assets/dist/js/bootstrap.bundle.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../static/assets/dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+        var ids = '{{ IDList|tojson }}';
+        var data = '{{getdata}}';
+
+        console.log(ids[0]);
+        console.log(data[1]);
+        console.log(ids);
+        console.log(data);
+
+        document.getElementById("productID").value = "ok";
+    </script>
 </body>
 
 </html>
