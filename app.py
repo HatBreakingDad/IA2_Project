@@ -1,5 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect
 import csv
+import json
+
+from flask import Flask, render_template, request, url_for, redirect
+
 
 app = Flask(__name__)
 
@@ -24,9 +27,9 @@ def search():
     if request.method == 'GET':
         """convert the csv into a basic html table format"""
         fileReturn = getCSV()
-        dataout = fileReturn[0]
+        data = fileReturn[0]
         categoryList = fileReturn[1]
-        return render_template('search.html', getdata=dataout, dataLength=8, resultLength=-1, categories=categoryList)
+        return render_template('search.html', getdata=data, dataLength=8, resultLength=-1, categories=categoryList)
     else:
         requestResults = request.form['results']
         search = []
@@ -69,17 +72,23 @@ def search():
 @app.route("/editor", methods=["POST", "GET"])
 def editor():
     if request.method == "GET":
-        with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
-            reader = csv.reader(file)
-            returnIDList = []
-            dataout = []
-            for line in reader:
-                dataout.append(line)
-                returnIDList.append(line[0])
-        IDList = returnIDList[1:]
-        return render_template('editor.html', getdata=dataout, IDList=IDList)
+        # with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
+        #     reader = csv.reader(file)
+        #     returnIDList = []
+        #     data = []
+        #     for line in reader:
+        #         data.append(line)
+        #         returnIDList.append(line[0])
+        # IDList = returnIDList[1:]
+        data = getCSV()[0]
+        IDList = []
+        DictID = {}
+        for i in range(1, len(data)):
+            IDList.append(data[i][0])
+            DictID[data[i][0]] = data[i][1:]
+        return render_template('editor.html', getdata=data, IDList=IDList, DictID=DictID)
     else:
-        return render_template('editor.html', getdata=dataout, dataLength=8)
+        return render_template('editor.html', getdata=data, dataLength=8)
 
 
 if __name__ == "__main__":
