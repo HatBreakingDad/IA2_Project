@@ -14,8 +14,8 @@ def getCSV():
         returnData = []
         for line in reader:
             returnData.append(line)
-            returnCategory = line[len(
-                line) - 1].replace('product_cat-', '').replace('-', ' ').title().split(',')
+            # We read the product's categories as is, but we later remove the product_cat prefix and dashing to improve user readability
+            returnCategory = line[len(line) - 1].split(',')
             for i in range(0, len(returnCategory)):
                 if(returnCategory[i] not in returnCatList):
                     returnCatList.append(returnCategory[i])
@@ -72,23 +72,40 @@ def search():
 @app.route("/editor", methods=["POST", "GET"])
 def editor():
     if request.method == "GET":
-        # with open("GE_Data.csv", mode='r', encoding='utf-8-sig') as file:
-        #     reader = csv.reader(file)
-        #     returnIDList = []
-        #     data = []
-        #     for line in reader:
-        #         data.append(line)
-        #         returnIDList.append(line[0])
-        # IDList = returnIDList[1:]
-        data = getCSV()[0]
+        fileReturn = getCSV()
+        data = fileReturn[0]
+        categoryList = fileReturn[1]
         IDList = []
         DictID = {}
         for i in range(1, len(data)):
             IDList.append(data[i][0])
             DictID[data[i][0]] = data[i][1:]
-        return render_template('editor.html', getdata=data, IDList=IDList, DictID=DictID)
+        return render_template('editor.html', getdata=data, IDList=IDList, DictID=DictID, categories=categoryList)
     else:
-        return render_template('editor.html', getdata=data, dataLength=8)
+        data = getCSV()[0]
+        dataDict = {}
+        for i in range(1, len(data)):
+            dataDict[data[i][0]] = data[i][1:]
+        #Request Form Variables
+        #ID -> productID
+        id = request.form['productID']
+        #Name -> productName
+        name = request.form['productName']
+        #Stock -> productStock
+        stock = request.form['productStock']
+        #Image -> image-select-primary
+        image = request.form['image-select-primary']
+        #Sale Price -> productSale (Need to add $ sign)
+        salePrice = '$' + str(request.form['productSale'])
+        #Normal Price -> productPrice (Need to add $ sign)
+        normalPrice = '$' + str(request.form['productPrice'])
+        #Select Category -> productCatSelect
+        categories = request.form['productCatSelect']
+        print(categories)
+        #SKU -> productSKU
+        sku = request.form['productSKU']
+        print(sku)
+        # return render_template('editor.html')
 
 
 if __name__ == "__main__":
