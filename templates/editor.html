@@ -169,7 +169,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="productCatSelect">Product Category Selection</label>
                         <select multiple class="category-select custom-select d-block w-100" id="productCatSelect"
-                            name="productCatSelect" placeholder="" required>
+                            name="productCatSelect[]" placeholder="" required>
                             {% for category in categories %}
                             <option value={{ category }}>
                                 {{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
