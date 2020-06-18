@@ -4,8 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <link rel="icon" href="../static/assets/media/logo.png">
 
     <title>Product Editor</title>
@@ -14,7 +12,7 @@
     <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="form-validation.css" rel="stylesheet">
+    <link href="../static/form-validation.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -47,7 +45,8 @@
                     <select class="form-control form-control-md" name="categoryselect">
                         <option value="" selected disabled hidden>Categories</option>
                         {% for category in categories %}
-                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('-',' ') }}
+                        <option class="dropdown-item" name="category" value={{category}}>
+                            {{ category.replace('product_cat-', '').replace('-', ' ').title() }}
                         </option>
                         {% endfor %}
                     </select>
@@ -66,6 +65,9 @@
         <div class="justify-content-center">
             <!--prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat-->
             <form class="needs-validation" method="POST" novalidate>
+
+                <!-- Row 1 (Product ID) -->
+
                 <div class="mb-3">
                     <label for="productID">Product ID</label>
                     <select class="id-select custom-select d-block w-100" id="productID" name="productID" placeholder=""
@@ -80,19 +82,21 @@
                     </div>
                 </div>
 
+                <!-- Row 2 (Product Name, Stock Check) -->
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="productName">Product Name</label>
-                        <input type="text" class="name-select form-control" id="productName" name="productName" placeholder=""
-                            value="" required>
+                        <input type="text" class="name-select form-control" id="productName" name="productName"
+                            placeholder="" value="" required>
                         <div class="invalid-feedback">
                             Valid product name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productStock">Stock</label>
-                        <select class="stock-select custom-select d-block w-100" id="productStock" name="productStock" placeholder=""
-                            required>
+                        <select class="stock-select custom-select d-block w-100" id="productStock" name="productStock"
+                            placeholder="" required>
                             <option value="">Choose...</option>
                             <option value="instock">Instock</option>
                             <option value="outofstock">Out of Stock</option>
@@ -103,23 +107,96 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                    <div class="invalid-feedback">
-                        Please enter your shipping address.
+                <!-- Row 3 (Image Upload, File Name) -->
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="image-file">Image Upload</label>
+                        <div class="custom-file">
+                            <input type="file" accept="image/*" class="image-file custom-file-input" id="image-file"
+                                name="image-file">
+                            <label class="custom-file-label" for="image-file">Choose file</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="image-select-primary">Current File Name</label>
+                        <input type="text" class="image-select-primary form-control" id="image-select-primary"
+                            name="image-select-primary" placeholder="None" value="" readonly>
+                        <div class="invalid-feedback">
+                            Valid filename is required.
+                        </div>
                     </div>
                 </div>
 
+                <!-- Row 4 (Sale Price, Normal Price) -->
+
                 <div class="row">
-                </div>
-                <div class="mb-3">
-                    <label for="zip">Zip</label>
-                    <input type="" class="form-control" id="zip" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Zip code required.
+                    <div class="col-md-6 mb-3">
+                        <label for="productSale">Sale Price</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    style="margin-bottom : 0px; padding-bottom : 0px; padding-top : 0px;">$</span>
+                            </div>
+                            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2"
+                                data-number-stepfactor="100" id="productSale" name="productSale"
+                                class="sale-select form-control currency" placeholder="Price" required />
+                        </div>
+                        <div class="invalid-feedback">
+                            Valid product sale price is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="productPrice">Normal Price</label>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    style="margin-bottom : 0px; padding-bottom : 0px; padding-top : 0px;">$</span>
+                            </div>
+                            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2"
+                                data-number-stepfactor="100" id="productPrice" name="productPrice"
+                                class="price-select form-control currency" placeholder="Price" required />
+                        </div>
+                        <div class="invalid-feedback">
+                            Valid product price is required.
+                        </div>
                     </div>
                 </div>
+
+                <!-- Row 5 (Category Dropdown) -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="productCatSelect">Product Category Selection</label>
+                        <select multiple class="category-select custom-select d-block w-100" id="productCatSelect"
+                            name="productCatSelect" placeholder="" required>
+                            {% for category in categories %}
+                            <option value={{ category }}>
+                                {{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Valid product categories are required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="productCategory">Current Product Categories</label>
+                        <textarea class="category-display form-control" style="text-transform: capitalize"
+                            id="productCategory" name="productCategory" readonly></textarea>
+                    </div>
+                </div>
+
+                <!-- Row 6 (SKU - Stock Keeping Unit) -->
+
+                <div class="mb-3">
+                    <label for="productSKU">Product SKU</label>
+                    <input type="text" class="sku-select name-select form-control" id="productSKU" name="productSKU" placeholder="" required>
+                    <div class="invalid-feedback">
+                        Valid product SKU is required.
+                    </div>
+                </div>
+
+
         </div>
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Detail Change</button>
@@ -137,39 +214,52 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
     <script src="../static/assets/dist/js/bootstrap.min.js"></script>
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <script type="text/javascript">
-        function test_func(data) {
-            console.log(data);
-        }
         var DictID = JSON.parse('{{DictID | tojson}}');
-        test_func(DictID)
 
         for (let [key, values] of Object.entries(DictID)) {
             console.log(`${key} ${values}`);
         }
-        
+
         const selectElement = document.querySelector('.id-select');
+        const imageElement = document.querySelector('.image-file');
+
+        imageElement.addEventListener('change', (event) => {
+            console.log(event.target.value);
+            console.log(event);
+            const imageLabel = document.querySelector('.custom-file-label');
+            const image = document.querySelector('.image-select-primary');
+            console.log(imageLabel);
+            imageLabel.textContent = event.target.value.slice(12);
+            image.value = event.target.value.slice(12);
+        })
 
         selectElement.addEventListener('change', (event) => {
-            console.log(event.target.value);
             const name = document.querySelector('.name-select');
             const stock = document.querySelector('.stock-select');
-            const image = document.querySelector('.image-select');
+            const image = document.querySelector('.image-select-primary');
+            const imageLabel = document.querySelector('.custom-file-label');
+            const sale = document.querySelector('.sale-select');
+            const price = document.querySelector('.price-select');
+            const sku = document.querySelector('.sku-select');
+            const category = document.querySelector('.category-display');
+            imageLabel.textContent = 'Choose file';
+
             name.value = DictID[event.target.value][0];
             stock.value = DictID[event.target.value][1];
             image.value = DictID[event.target.value][2];
+            sale.value = DictID[event.target.value][3].replace('$', '');
+            price.value = DictID[event.target.value][4].replace('$', '');
+            console.log(event.target);
+            console.log(event.target.value);
+            sku.value = DictID[event.target.value][5];
+            category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
         });
-
-        document.getElementById("productID").value = ids[0];
-        //prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat
-        //Image
-        //Saleprice
-        //Normalprice
-        //SKU
-        //Category
     </script>
 </body>
 

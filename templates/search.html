@@ -4,14 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Zachary Wicks">
-    <meta name="generator" content="Jekyll v4.0.1">
+    <link rel="icon" href="../static/assets/media/logo.png">
+
     <title>Search Results</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
 
-    <!-- Bootstrap core CSS -->
+
     <link href="../static/assets/dist/css/bootstrap.css" rel="stylesheet">
 
     <style>
@@ -23,7 +22,7 @@
             -ms-user-select: none;
             user-select: none;
         }
-
+        
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -38,10 +37,8 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <!-- <a class="navbar-brand" href="#">GGE Product Management</a> -->
-            <a class="navbar-brand" href="#"><img src="../static/assets/media/logo.png"
-                    style="width : 35px; height: 35px;"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#"><img src="../static/assets/media/logo.png" style="width : 35px; height: 35px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -65,11 +62,10 @@
                     <select class="form-control form-control-md" name="categoryselect">
                         <option value="" selected disabled hidden>Categories</option>
                         {% for category in categories %}
-                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('-',' ') }}</option>
+                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('product_cat-', '').replace('-', ' ').title() }}</option>
                         {% endfor %}
                     </select>
-                    <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results"
-                        id="results" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results" id="results" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
@@ -78,8 +74,7 @@
 
     <main role="main">
         {% if resultLength > -1 %}
-        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }}
-            items were found</h1>
+        <h1 style="margin-left : 30px; margin-bottom : 40px; margin-top : 40px;" class="display-2">{{ resultLength }} items were found</h1>
         {% else %}
         <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">List of Products</h1>
         {% endif %}
@@ -102,7 +97,7 @@
                     {% endfor %}
                     <td>
                         <ul class="list-group">
-                            {% for item in row[dataLength  - 1].replace('product_cat-','').replace('-',' ').title().split(',') %}
+                            {% for item in row[dataLength - 1].replace('product_cat-','').replace('-',' ').title().split(',') %}
                             <li class="list-group-item">{{ item }}</li>
                             {% endfor %}
                         </ul>
@@ -110,8 +105,7 @@
                     <!-- {% for col in row %}
                     <td>{{ col.replace('product_cat-','')}}</td>
                     {% endfor %} -->
-                    <td><img onerror="this.src = '../static/assets/media/placeholder.jpg'; this.style = 'width : 160px; height : 160px;'"
-                            src="{{ '../static/assets/media/' + row[3]}}"></td>
+                    <td><img onerror="this.src = '../static/assets/media/placeholder.jpg'; this.style = 'width : 160px; height : 160px;'" src="{{ '../static/assets/media/' + row[3]}}"></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -126,10 +120,10 @@
         </footer>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../static/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../static/assets/js/vendor/jquery.slim.min.js"><\/script>')
+    </script>
     <script src="../static/assets/dist/js/bootstrap.bundle.js"></script>
 </body>
 
