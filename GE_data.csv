@@ -1,4 +1,4 @@
-prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat
+﻿prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat
 101240,64 Page Garden Express Growing Guide,instock,Growing_Guide_Front_Cover_15-160x160.jpg,,$2.00,GG,product_cat-garden-library
 204276,Tree Guard 05,instock,Tree_Guard-05-160x160.jpg,$1.47,$2.10,ACCTREGUA,"product_cat-new-year-specials,product_cat-page-32-33-hard-goods,product_cat-page-49-50-hardgoods,product_cat-page-60-61-hardgoods,product_cat-page-60-61-tools-and-accessories,product_cat-plant-protection"
 42393,Planting & Storage Basket Round 26Cm,instock,Bulb_Baskets_New1-160x160.jpg,$5.53,$7.90,ACCBASRND,"product_cat-new-year-specials,product_cat-page-30-bulb-accessories,product_cat-page-51-60-spring-bulb-pre-order,product_cat-garden-gear"

@@ -36,7 +36,7 @@
                         <a class="nav-link" href="#">Stock Checker</a>
                     </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0" id="search" method="POST">
+                <form action="{{ url_for('search') }}" class="form-inline mt-2 mt-md-0" id="search" method="POST">
                     <select class="form-control form-control-md" name="stockselect">
                         <option value="" selected disabled hidden>Product Stock</option>
                         <option class="dropdown-item" name="stock" value="instock">In Stock</option>
@@ -169,10 +169,9 @@
                     <div class="col-md-6 mb-3">
                         <label for="productCatSelect">Product Category Selection</label>
                         <select multiple class="category-select custom-select d-block w-100" id="productCatSelect"
-                            name="productCatSelect[]" placeholder="" required>
+                            name="productCatSelect" placeholder="" required>
                             {% for category in categories %}
-                            <option value={{ category }}>
-                                {{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
+                            <option value={{ category }}>{{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
                             {% endfor %}
                         </select>
                         <div class="invalid-feedback">
@@ -222,19 +221,18 @@
     <script type="text/javascript">
         var DictID = JSON.parse('{{DictID | tojson}}');
 
-        for (let [key, values] of Object.entries(DictID)) {
-            console.log(`${key} ${values}`);
-        }
+        // for (let [key, values] of Object.entries(DictID)) {
+        //     console.log(`${key} ${values}`);
+        // }
 
         const selectElement = document.querySelector('.id-select');
         const imageElement = document.querySelector('.image-file');
 
         imageElement.addEventListener('change', (event) => {
-            console.log(event.target.value);
-            console.log(event);
             const imageLabel = document.querySelector('.custom-file-label');
             const image = document.querySelector('.image-select-primary');
             console.log(imageLabel);
+            console.log(image)
             imageLabel.textContent = event.target.value.slice(12);
             image.value = event.target.value.slice(12);
         })
@@ -255,8 +253,6 @@
             image.value = DictID[event.target.value][2];
             sale.value = DictID[event.target.value][3].replace('$', '');
             price.value = DictID[event.target.value][4].replace('$', '');
-            console.log(event.target);
-            console.log(event.target.value);
             sku.value = DictID[event.target.value][5];
             category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
         });
