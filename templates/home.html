@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="../static/assets/media/logo.png">
+
+    <title>Search Results</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+
+
+    <link href="../static/assets/dist/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="../static/carousel.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <!-- <a class="navbar-brand" href="#">GGE Product Management</a> -->
+            <a class="navbar-brand" href=""><img src="../static/assets/media/logo.png"
+                    style="width : 35px; height: 35px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="search">Search <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="editor">Editor</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        <!-- <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">Yep</h1>
+        <div class="justify-content-center">
+            <p class="d-flex justify-content-center"></p>
+        </div> -->
+
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-2">Home Page</h1>
+            <!-- <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap
+                example. It's built with default Bootstrap components and utilities with little customization.</p> -->
+        </div>
+
+        <div class="container">
+            <p class="lead" style="text-align :center">Search product data with ease and browse using a range of filters
+                and customised search
+                terms. Feel free to also access the product editor, where you can modify a range of fields for each
+                product.
+            </p>
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Search</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">Product Filtering</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Tabular format</li>
+                            <li>Simple searching</li>
+                            <li>Stock filtering</li>
+                            <li>Category sorting</li>
+                        </ul>
+                        <button type="button" onclick="location.href='search'"
+                            class="btn btn-lg btn-block btn-outline-primary">Search products</button>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Editor</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">Data Editing</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>File uploading</li>
+                            <li>Field modification</li>
+                            <li>Data validation</li>
+                            <li>Input verification</li>
+                        </ul>
+                        <button type="button" onclick="location.href='editor'"
+                            class="btn btn-lg btn-block btn-outline-primary">Start editing</button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
+                <p class="float-right"><a href="#">Back to top</a></p>
+                <p>&copy; 2020 Green Green Gardening, Inc. &middot; <a href="#">Privacy</a> &middot; <a
+                        href="#">Terms</a>
+                </p>
+            </footer>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../static/assets/js/vendor/jquery.slim.min.js"><\/script>')
+    </script>
+    <script src="../static/assets/dist/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
