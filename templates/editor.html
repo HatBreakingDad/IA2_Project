@@ -18,7 +18,7 @@
 <body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#"><img src="../static/assets/media/logo.png"
+            <a class="navbar-brand" href="home"><img src="../static/assets/media/logo.png"
                     style="width : 35px; height: 35px;"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,9 +31,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="editor">Editor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Stock Checker</a>
                     </li>
                 </ul>
                 <form action="{{ url_for('search') }}" class="form-inline mt-2 mt-md-0" id="search" method="POST">
@@ -60,11 +57,16 @@
 
     <div style="margin-bottom : 100px;" class="container">
         <div class="text-center">
-            <h2 style="margin-top : 80px; margin-bottom : 20px;">Checkout Form</h2>
+            <h2 style="margin-top : 80px; margin-bottom : 20px;">Product Form</h2>
+            {% if success == 1 %}
+            <p class="lead" style="text-align : left; color : red">No changes were made to the submitted form!</p>
+            {% elif success == 2 %}
+            <p class="lead" style="text-align : left; color : rgb(98, 218, 98)">Success! Form data has been changed!</p>
+            {% endif %}
         </div>
         <div class="justify-content-center">
             <!--prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat-->
-            <form class="needs-validation" method="POST" novalidate>
+            <form class="needs-validation" method="POST">
 
                 <!-- Row 1 (Product ID) -->
 
@@ -73,13 +75,10 @@
                     <select class="id-select custom-select d-block w-100" id="productID" name="productID" placeholder=""
                         required>
                         <option value="">Choose...</option>
-                        {% for item in IDList %}
+                        {% for item in idList %}
                         <option value={{ item }}>{{ item }}</option>
                         {% endfor %}
                     </select>
-                    <div class="invalid-feedback">
-                        Valid product ID is required.
-                    </div>
                 </div>
 
                 <!-- Row 2 (Product Name, Stock Check) -->
@@ -89,9 +88,6 @@
                         <label for="productName">Product Name</label>
                         <input type="text" class="name-select form-control" id="productName" name="productName"
                             placeholder="" value="" required>
-                        <div class="invalid-feedback">
-                            Valid product name is required.
-                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productStock">Stock</label>
@@ -101,9 +97,6 @@
                             <option value="instock">Instock</option>
                             <option value="outofstock">Out of Stock</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Valid product stock state is required.
-                        </div>
                     </div>
                 </div>
 
@@ -119,14 +112,17 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="image-select-primary">Current File Name</label>
+                        <label for="image-select-primary">Current Image Name</label>
                         <input type="text" class="image-select-primary form-control" id="image-select-primary"
                             name="image-select-primary" placeholder="None" value="" readonly>
-                        <div class="invalid-feedback">
-                            Valid filename is required.
-                        </div>
                     </div>
                 </div>
+
+                <!-- <div class="row">
+                    <label for="img-display" style="margin-left : 15px;">Image</label>
+                    <img id="img-display" name="img-display" class="img-display" onerror=""
+                            src="../static/assets/media/placeholder.jpg" style="width : 160px; height : 160px;">
+                </div> -->
 
                 <!-- Row 4 (Sale Price, Normal Price) -->
 
@@ -142,9 +138,6 @@
                                 data-number-stepfactor="100" id="productSale" name="productSale"
                                 class="sale-select form-control currency" placeholder="Price" required />
                         </div>
-                        <div class="invalid-feedback">
-                            Valid product sale price is required.
-                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productPrice">Normal Price</label>
@@ -158,9 +151,6 @@
                                 data-number-stepfactor="100" id="productPrice" name="productPrice"
                                 class="price-select form-control currency" placeholder="Price" required />
                         </div>
-                        <div class="invalid-feedback">
-                            Valid product price is required.
-                        </div>
                     </div>
                 </div>
 
@@ -169,19 +159,17 @@
                     <div class="col-md-6 mb-3">
                         <label for="productCatSelect">Product Category Selection</label>
                         <select multiple class="category-select custom-select d-block w-100" id="productCatSelect"
-                            name="productCatSelect" placeholder="" required>
+                            name="productCatSelect" placeholder="">
                             {% for category in categories %}
-                            <option value={{ category }}>{{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
+                            <option value={{ category }}>
+                                {{ category.replace('product_cat-', '').replace('-', ' ').title()}}</option>
                             {% endfor %}
                         </select>
-                        <div class="invalid-feedback">
-                            Valid product categories are required.
-                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productCategory">Current Product Categories</label>
                         <textarea class="category-display form-control" style="text-transform: capitalize"
-                            id="productCategory" name="productCategory" readonly></textarea>
+                            id="productCategory" name="productCategory" rows="3" readonly></textarea>
                     </div>
                 </div>
 
@@ -189,16 +177,15 @@
 
                 <div class="mb-3">
                     <label for="productSKU">Product SKU</label>
-                    <input type="text" class="sku-select name-select form-control" id="productSKU" name="productSKU" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Valid product SKU is required.
-                    </div>
+                    <input type="text" class="sku-select name-select form-control" id="productSKU" name="productSKU"
+                        placeholder="" required>
                 </div>
 
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Detail Change</button>
+        <button class="btn btn-primary btn-lg btn-block" style="border-color : black;" type="submit">Confirm Detail
+            Change</button>
         </form>
     </div>
     <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
@@ -219,7 +206,7 @@
     <script src="../static/assets/dist/js/bootstrap.min.js"></script>
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <script type="text/javascript">
-        var DictID = JSON.parse('{{DictID | tojson}}');
+        var DictID = JSON.parse('{{dictID | tojson}}');
 
         // for (let [key, values] of Object.entries(DictID)) {
         //     console.log(`${key} ${values}`);
@@ -246,6 +233,7 @@
             const price = document.querySelector('.price-select');
             const sku = document.querySelector('.sku-select');
             const category = document.querySelector('.category-display');
+            const categoryChecker = document.querySelector('.category-select');
             imageLabel.textContent = 'Choose file';
 
             name.value = DictID[event.target.value][0];
@@ -254,7 +242,12 @@
             sale.value = DictID[event.target.value][3].replace('$', '');
             price.value = DictID[event.target.value][4].replace('$', '');
             sku.value = DictID[event.target.value][5];
-            category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
+            if (DictID[event.target.value][6].length > 0) {
+                category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
+            } else {
+                categoryChecker.required = false;
+                category.textContent = "No product categories where found"
+            }
         });
     </script>
 </body>
