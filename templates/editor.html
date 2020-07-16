@@ -15,7 +15,8 @@
     <link href="../static/form-validation.css" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body>
+    <!--class="bg-light"-->
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <a class="navbar-brand" href="home"><img src="../static/assets/media/logo.png"
@@ -59,9 +60,15 @@
         <div class="text-center">
             <h2 style="margin-top : 80px; margin-bottom : 20px;">Product Form</h2>
             {% if success == 1 %}
-            <p class="lead" style="text-align : left; color : red">No changes were made to the submitted form!</p>
+            <p class="lead font-weight-bold" style="text-align : left; color : red">No changes were made to the
+                submitted form!</p>
             {% elif success == 2 %}
-            <p class="lead" style="text-align : left; color : rgb(98, 218, 98)">Success! Form data has been changed!</p>
+            <p class="lead font-weight-bold" style="text-align : left; color : rgb(98, 218, 98)">Success! Form data has
+                been changed
+            </p>
+            {% elif success == 3 %}
+            <p class="lead font-weight-bold" style="text-align : left; color : #ffc107">Success! Form data has been
+                reset</p>
             {% endif %}
         </div>
         <div class="justify-content-center">
@@ -87,7 +94,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="productName">Product Name</label>
                         <input type="text" class="name-select form-control" id="productName" name="productName"
-                            placeholder="" value="" required>
+                            placeholder="Name" value="" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productStock">Stock</label>
@@ -134,22 +141,23 @@
                                 <span class="input-group-text"
                                     style="margin-bottom : 0px; padding-bottom : 0px; padding-top : 0px;">$</span>
                             </div>
-                            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2"
-                                data-number-stepfactor="100" id="productSale" name="productSale"
-                                class="sale-select form-control currency" placeholder="Price" required />
+                            <input type="number" placeholder="0.00" value="" min="0" step="0.01"
+                                data-number-to-fixed="2" data-number-stepfactor="100" id="productSale"
+                                name="productSale" class="sale-select form-control currency" placeholder="Price"
+                                required />
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="productPrice">Normal Price</label>
-
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"
                                     style="margin-bottom : 0px; padding-bottom : 0px; padding-top : 0px;">$</span>
                             </div>
-                            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2"
-                                data-number-stepfactor="100" id="productPrice" name="productPrice"
-                                class="price-select form-control currency" placeholder="Price" required />
+                            <input type="number" placeholder="0.00" value="" min="0" step="0.01"
+                                data-number-to-fixed="2" data-number-stepfactor="100" id="productPrice"
+                                name="productPrice" class="price-select form-control currency" placeholder="Price"
+                                required />
                         </div>
                     </div>
                 </div>
@@ -178,14 +186,29 @@
                 <div class="mb-3">
                     <label for="productSKU">Product SKU</label>
                     <input type="text" class="sku-select name-select form-control" id="productSKU" name="productSKU"
-                        placeholder="" required>
+                        placeholder="SKU" required>
                 </div>
 
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" style="border-color : black;" type="submit">Confirm Detail
-            Change</button>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <!-- <hr class="mb-4"> -->
+                <button class="btn btn-primary btn-lg btn-block  btn-warning" style="border-color : black;"
+                    type="submit" value="0" name="formSubmit" formnovalidate>Reset Data</button>
+            </div>
+            <div class="col-md-6 mb-3">
+                <!-- <hr class="mb-4"> -->
+                <button class="btn btn-primary btn-lg btn-block btn-success" style="border-color : black;" type="submit"
+                    value="1" name="formSubmit">Confirm
+                    Detail
+                    Change</button>
+            </div>
+        </div>
+        <!-- <hr class="mb-4"> -->
+        <!-- <button class="btn btn-primary btn-lg btn-block" style="border-color : black;" type="submit">Confirm Detail
+            Change</button> -->
         </form>
     </div>
     <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
