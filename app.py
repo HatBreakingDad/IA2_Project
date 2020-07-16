@@ -109,6 +109,20 @@ def editor():
         return render_template('editor.html', getdata=templateValues[0], idList=templateValues[1], dictID=templateValues[2], categories=templateValues[3], success=0)
     else:
         # Request Form Variables
+        print(request.form['formSubmit'])
+        print(type(request.form['formSubmit']))
+        if request.form['formSubmit'] == '0':
+            print('Yesman')
+            templateValues = editorSetup()
+            with open("GE_Data.csv", mode='w+', encoding='utf-8-sig', newline='') as dataStore:
+                writer = csv.writer(dataStore, delimiter=",")
+                lines = []
+                with open("BackupData.csv", mode='r', encoding='utf-8-sig') as dataBackup:
+                    reader = csv.reader(dataBackup)
+                    for line in reader:
+                        lines.append(line)
+                writer.writerows(lines)
+            return render_template('editor.html', getdata=templateValues[0], idList=templateValues[1], dictID=templateValues[2], categories=templateValues[3], success=3)
         id = request.form['productID']
         name = request.form['productName']
         stock = request.form['productStock']
