@@ -97,11 +97,11 @@
                         {% endif %}
                     {% endfor %}
                     <td>
-                        <ul class="list-group">
+                        <ol class="list-group">
                             {% for item in row[dataLength - 1].replace('product_cat-','').replace('-',' ').title().split(',') %}
                             <li class="list-group-item">{{ item }}</li>
                             {% endfor %}
-                        </ul>
+                        </ol>
                     </td>
                 </tr>
                 {% endfor %}
