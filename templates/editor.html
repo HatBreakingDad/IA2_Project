@@ -1,78 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="../static/assets/media/logo.png">
+{% block head %}
+<link href="../static/form-validation.css" rel="stylesheet">
+{% endblock %}
 
-    <title>Product Editor</title>
+{% block content %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../static/form-validation.css" rel="stylesheet">
-</head>
-
-<body>
-    <!--class="bg-light"-->
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="home"><img src="../static/assets/media/logo.png"
-                    style="width : 35px; height: 35px;"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="search">Search <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="editor">Editor</a>
-                    </li>
-                </ul>
-                <form action="{{ url_for('search') }}" class="form-inline mt-2 mt-md-0" id="search" method="POST">
-                    <select class="form-control form-control-md" name="stockselect">
-                        <option value="" selected disabled hidden>Product Stock</option>
-                        <option class="dropdown-item" name="stock" value="instock">In Stock</option>
-                        <option class="dropdown-item" name="stock" value="outofstock">Out of Stock</option>
-                    </select>
-                    <select class="form-control form-control-md" name="categoryselect">
-                        <option value="" selected disabled hidden>Categories</option>
-                        {% for category in categories %}
-                        <option class="dropdown-item" name="category" value={{category}}>
-                            {{ category.replace('product_cat-', '').replace('-', ' ').title() }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                    <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results"
-                        id="results" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-    </header>
-
-    <div style="margin-bottom : 100px;" class="container">
+<div style="margin-bottom : 100px;" class="container">
+    <section>
         <div class="text-center">
             <h2 style="margin-top : 80px; margin-bottom : 20px;">Product Form</h2>
             {% if success == 1 %}
             <p class="lead font-weight-bold" style="text-align : left; color : red">No changes were made to the
-                submitted form!</p>
+                submitted form or empty fields were submitted!</p>
             {% elif success == 2 %}
             <p class="lead font-weight-bold" style="text-align : left; color : rgb(98, 218, 98)">Success! Form data has
                 been changed
             </p>
             {% elif success == 3 %}
             <p class="lead font-weight-bold" style="text-align : left; color : #ffc107">Success! Form data has been
-                reset, but you may need to reset the page to load the new data</p>
+                reset, but you may need to refresh the page to load the new data</p>
             {% endif %}
         </div>
+    </section>
+    <section>
         <div class="justify-content-center">
-            <!--prod_id,prod_name,prod_stock,prod_image,prod_saleprice,prod_price,prod_sku,prod_cat-->
             <form class="needs-validation" method="POST">
 
                 <!-- Row 1 (Product ID) -->
@@ -124,12 +76,6 @@
                             name="image-select-primary" placeholder="None" value="" readonly>
                     </div>
                 </div>
-
-                <!-- <div class="row">
-                    <label for="img-display" style="margin-left : 15px;">Image</label>
-                    <img id="img-display" name="img-display" class="img-display" onerror=""
-                            src="../static/assets/media/placeholder.jpg" style="width : 160px; height : 160px;">
-                </div> -->
 
                 <!-- Row 4 (Sale Price, Normal Price) -->
 
@@ -206,73 +152,48 @@
                     Change</button>
             </div>
         </div>
-        <!-- <hr class="mb-4"> -->
-        <!-- <button class="btn btn-primary btn-lg btn-block" style="border-color : black;" type="submit">Confirm Detail
-            Change</button> -->
         </form>
-    </div>
-    <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2020 Green Green Gardening, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
-        </p>
-    </footer>
-    </div>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var DictID = JSON.parse('{{dictID | tojson}}');
 
+    const selectElement = document.querySelector('.id-select');
+    const imageElement = document.querySelector('.image-file');
 
+    imageElement.addEventListener('change', (event) => {
+        const imageLabel = document.querySelector('.custom-file-label');
+        const image = document.querySelector('.image-select-primary');
+        imageLabel.textContent = event.target.value.slice(12);
+        image.value = event.target.value.slice(12);
+    })
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script>
-        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-    </script>
-    <script src="../static/assets/dist/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <script type="text/javascript">
-        var DictID = JSON.parse('{{dictID | tojson}}');
+    selectElement.addEventListener('change', (event) => {
+        const name = document.querySelector('.name-select');
+        const stock = document.querySelector('.stock-select');
+        const image = document.querySelector('.image-select-primary');
+        const imageLabel = document.querySelector('.custom-file-label');
+        const sale = document.querySelector('.sale-select');
+        const price = document.querySelector('.price-select');
+        const sku = document.querySelector('.sku-select');
+        const category = document.querySelector('.category-display');
+        const categoryChecker = document.querySelector('.category-select');
+        imageLabel.textContent = 'Choose file';
 
-        // for (let [key, values] of Object.entries(DictID)) {
-        //     console.log(`${key} ${values}`);
-        // }
-
-        const selectElement = document.querySelector('.id-select');
-        const imageElement = document.querySelector('.image-file');
-
-        imageElement.addEventListener('change', (event) => {
-            const imageLabel = document.querySelector('.custom-file-label');
-            const image = document.querySelector('.image-select-primary');
-            console.log(imageLabel);
-            console.log(image)
-            imageLabel.textContent = event.target.value.slice(12);
-            image.value = event.target.value.slice(12);
-        })
-
-        selectElement.addEventListener('change', (event) => {
-            const name = document.querySelector('.name-select');
-            const stock = document.querySelector('.stock-select');
-            const image = document.querySelector('.image-select-primary');
-            const imageLabel = document.querySelector('.custom-file-label');
-            const sale = document.querySelector('.sale-select');
-            const price = document.querySelector('.price-select');
-            const sku = document.querySelector('.sku-select');
-            const category = document.querySelector('.category-display');
-            const categoryChecker = document.querySelector('.category-select');
-            imageLabel.textContent = 'Choose file';
-
-            name.value = DictID[event.target.value][0];
-            stock.value = DictID[event.target.value][1];
-            image.value = DictID[event.target.value][2];
-            sale.value = DictID[event.target.value][3].replace('$', '');
-            price.value = DictID[event.target.value][4].replace('$', '');
-            sku.value = DictID[event.target.value][5];
-            if (DictID[event.target.value][6].length > 0) {
-                category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
-            } else {
-                categoryChecker.required = false;
-                category.textContent = "No product categories where found"
-            }
-        });
-    </script>
-</body>
-
-</html>
+        name.value = DictID[event.target.value][0];
+        stock.value = DictID[event.target.value][1];
+        image.value = DictID[event.target.value][2];
+        sale.value = DictID[event.target.value][3].replace('$', '');
+        price.value = DictID[event.target.value][4].replace('$', '');
+        sku.value = DictID[event.target.value][5];
+        if (DictID[event.target.value][6].length > 0) {
+            category.textContent = DictID[event.target.value][6].replace(/product_cat-/g, '').replace(/-/g, ' ').replace(/,/g, '\n');
+        } else {
+            categoryChecker.required = false;
+            category.textContent = "No product categories where found"
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="../static/assets/media/logo.png">
+
+    <title>Search Results</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+
+
+    <link href="../static/assets/dist/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link href="../static/carousel.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="home"><img src="../static/assets/media/logo.png" style="width : 35px; height: 35px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="search">Search <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="editor">Editor</a>
+                    </li>
+                </ul>
+                <form class="form-inline mt-2 mt-md-0" id="search" method="POST">
+                    <select class="form-control form-control-md" name="stockselect">
+                        <option value="" selected disabled hidden>Product Stock</option>
+                        <option class="dropdown-item" name="stock" value="instock">In Stock</option>
+                        <option class="dropdown-item" name="stock" value="outofstock">Out of Stock</option>
+                    </select>
+                    <select class="form-control form-control-md" name="categoryselect">
+                        <option value="" selected disabled hidden>Categories</option>
+                        {% for category in categories %}
+                        <option class="dropdown-item" name="category" value={{category}}>{{ category.replace('product_cat-', '').replace('-', ' ').title() }}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="form-control mr-sm-2" type="text" value="" placeholder="Search" name="results" id="results" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1 style="margin-bottom : 40px; margin-top : 40px; text-align : center" class="display-2">Results</h1>
+        {% if resultLength > -1 %}
+            {% if searchTerm %}
+                <h2 class="display-5" style="margin-left : 10px;">{{ resultLength }} results were found for '{{ searchTerm }}'</h2>
+            {% else %}
+                <h2 class="display-5" style="margin-left : 10px;">{{ resultLength }} results were found </h2>
+            {% endif %}
+        {% endif %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-light">
+                <thead class="thead-dark">
+                    <tr>
+                        {% for element in getdata[0] %}
+
+                        <th scope="col">{{ element.replace('prod_','').upper() }}</th>
+
+                        {% endfor %}
+                    </tr>
+                </thead>
+                {% for row in getdata[1:] %}
+                <tr>
+                    {% for i in range(0, dataLength - 1) %}
+                        {% if i == 3 %}
+                            <td><img onerror="this.src='../static/assets/media/placeholder.jpg'; this.style='width : 160px; height : 160px;'" src="{{ '../static/assets/media/' + row[i]}}"></td>
+                        {% else %}
+                            <td>{{ row[i]}}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <ol class="list-group">
+                            {% for item in row[dataLength - 1].replace('product_cat-','').replace('-',' ').title().split(',') %}
+                            <li class="list-group-item">{{ item }}</li>
+                            {% endfor %}
+                        </ol>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <footer class="page-footer navbar fixed-bottom stylish-color-dark pt-4" style="background-color : #212529;">
+            <p class="float-right"><a href="#">Back to top</a></p>
+            <p>&copy; 2020 Green Green Gardening, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+            </p>
+        </footer>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../static/assets/js/vendor/jquery.slim.min.js"><\/script>')
+    </script>
+    <script src="../static/assets/dist/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>

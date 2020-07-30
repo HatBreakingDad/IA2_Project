@@ -1,6 +1,5 @@
-import csv
-
 from flask import Flask, render_template, request, url_for, redirect
+import csv
 
 # GetData is not used in editor.html template and is unnecessarily returned in the editorSetup function.
 app = Flask(__name__)
@@ -40,7 +39,7 @@ def editorSetup():
     idList = []
     dictID = {}
     for i in range(1, len(data)):
-        idList.append(data[i][0])
+        idList.append(int(data[i][0]))
         dictID[data[i][0]] = data[i][1:]
     return data, sorted(idList), dictID, categoryList
 
@@ -148,6 +147,11 @@ def editor():
                     categories = lines[i][7]
                 writeList = [id, name, stock, image,
                               salePrice, normalPrice, sku, categories]
+                # Checking if clientside accidently sent emtpy field.
+                for item in writeList:
+                    if not item:
+                        templateValues = editorSetup()
+                        return render_template('editor.html', getdata=templateValues[0], idList=templateValues[1], dictID=templateValues[2], categories=templateValues[3], success=1)
                 # What we do here is check if any changes were made to the line, if not, we don't bother writing the form submitted line
                 # as it won't make a difference. I did try to implement something like this using js and html, however I was unable to
                 # succesfully make something that would work https://www.sitepoint.com/detect-html-form-changes/ (is what I looked at)
